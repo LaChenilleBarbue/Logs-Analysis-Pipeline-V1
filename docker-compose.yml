@@ -115,7 +115,7 @@ services:
       - ${KIBANA_PORT}:5601
     environment:
       - SERVERNAME=kibana
-      - SERVER_PUBLICBASEURL="https://uzexhuid03.cloud.sncf.fr"
+      - SERVER_PUBLICBASEURL="https://localhost/"
       - ELASTICSEARCH_HOSTS=https://es01:9200
       - ELASTICSEARCH_USERNAME=kibana_system
       - ELASTICSEARCH_PASSWORD=${KIBANA_PASSWORD}
@@ -138,13 +138,13 @@ services:
     labels:
       - "traefik.enable=true"
       
-      - "traefik.http.routers.elk_http.rule=Host(`uzexhuid03.cloud.sncf.fr`)"
+      - "traefik.http.routers.elk_http.rule=Host(`localhost`)"
       - "traefik.http.routers.elk_http.entrypoints=web"
       
       - "traefik.http.routers.elk_http.middlewares=https_redirect"
 
 
-      - "traefik.http.routers.elk_https.rule=Host(`uzexhuid03.cloud.sncf.fr`)"
+      - "traefik.http.routers.elk_https.rule=Host(`localhost`)"
       - "traefik.http.routers.elk_https.entrypoints=web-secure"
       - "traefik.http.routers.elk_https.tls=true"
       
