@@ -1,0 +1,33 @@
+filebeat.config:
+  modules:
+    path: ${path.config}/modules.d/*.yml
+    reload.enabled: false
+
+
+filebeat.inputs:
+  - type: log
+    enabled: true
+    id: apache_access
+    paths:
+      - /apache/*.log
+
+
+#filebeat.autodiscover:
+#  providers:
+#    - type: docker
+#      hints.enabled: true
+
+processors:
+- add_cloud_metadata: ~
+
+output.elasticsearch:
+  index: "filebeat-apache-%{[agent.version]}"
+  hosts: ["https://es01:9200"]
+  username: '${ELASTICSEARCH_USERNAME:}'
+  password: '${ELASTICSEARCH_PASSWORD:}'
+  ssl:
+    certificate_authorities: ["/usr/share/filebeat/es01_cert.pem"]
+
+setup.template:
+  name: "filebeat-apache"
+  pattern: "filebeat-apache-%{[agent.version]}"
